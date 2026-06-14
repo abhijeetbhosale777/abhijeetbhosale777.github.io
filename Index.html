@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abhijeet Bhosale — Software Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #1a1a24;
+      --accent: #7c6eff;
+      --accent2: #a78bfa;
+      --text: #f0eeff;
+      --muted: #8b87a8;
+      --border: rgba(124,110,255,0.18);
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Space Grotesk', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: var(--accent2);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 2.5rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px; height: 1px;
+      background: var(--accent);
+    }
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    h1 .name-highlight {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 60%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent2); }
+
+    /* TERMINAL CARD */
+    .terminal {
+      margin-top: 5rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      max-width: 560px;
+    }
+    .terminal-bar {
+      background: var(--bg3);
+      padding: 0.6rem 1rem;
+      display: flex; gap: 6px; align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .terminal-body { padding: 1.25rem 1.5rem; font-family: var(--mono); font-size: 0.82rem; }
+    .t-line { margin-bottom: 0.35rem; }
+    .t-prompt { color: var(--accent); }
+    .t-cmd { color: var(--text); }
+    .t-out { color: var(--muted); padding-left: 1rem; }
+    .t-green { color: #28c840; }
+    .t-cursor {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--accent);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* SKILLS SECTION */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2.5rem;
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .skill-card {
+      background: var(--bg2);
+      padding: 1.5rem;
+      transition: background 0.2s;
+    }
+    .skill-card:hover { background: var(--bg3); }
+    .skill-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .skill-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.75rem; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      background: rgba(124,110,255,0.12);
+      color: var(--accent2);
+      border-radius: 4px;
+      border: 1px solid rgba(124,110,255,0.2);
+    }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .project-num {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .project-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .project-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    /* CONTACT */
+    .contact-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+    .contact-email {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--accent2);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .contact-email:hover { border-color: var(--accent2); }
+    .social-links { display: flex; gap: 1.25rem; }
+    .social-link {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .social-link:hover { color: var(--text); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .hero, .section { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .contact-inner { padding-left: 1.25rem; padding-right: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">ab.dev</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="resume.html">Resume</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Available for opportunities</div>
+  <h1>Hi, I'm<br><span class="name-highlight">Abhijeet Bhosale</span></h1>
+  <p class="hero-sub">
+    A software developer who builds clean, performant, and thoughtful digital products. I turn complex problems into elegant solutions.
+  </p>
+  <div class="hero-actions">
+    <a href="resume.html" class="btn btn-primary">View Resume →</a>
+    <a href="mailto:abhijeet@email.com" class="btn btn-outline">Get in touch</a>
+  </div>
+
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+    </div>
+    <div class="terminal-body">
+      <div class="t-line"><span class="t-prompt">~</span> <span class="t-cmd">whoami</span></div>
+      <div class="t-line t-out">abhijeet bhosale — software developer</div>
+      <div class="t-line" style="margin-top:0.5rem"><span class="t-prompt">~</span> <span class="t-cmd">cat skills.txt</span></div>
+      <div class="t-line t-out">languages : Python, JavaScript, Java, C++</div>
+      <div class="t-line t-out">frontend  : React, HTML, CSS</div>
+      <div class="t-line t-out">backend   : Node.js, REST APIs, SQL</div>
+      <div class="t-line t-out">tools     : Git, Docker, Linux</div>
+      <div class="t-line" style="margin-top:0.5rem"><span class="t-prompt">~</span> <span class="t-cmd">echo $STATUS</span></div>
+      <div class="t-line"><span class="t-green">✓ open to new opportunities</span></div>
+      <div class="t-line" style="margin-top:0.5rem"><span class="t-prompt">~</span> <span class="t-cursor"></span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section class="section">
+  <div class="section-label">What I work with</div>
+  <h2>Skills & Technologies</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">⚙️</div>
+      <div class="skill-name">Languages</div>
+      <div class="skill-tags">
+        <span class="tag">Python</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Java</span>
+        <span class="tag">C++</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🖥️</div>
+      <div class="skill-name">Frontend</div>
+      <div class="skill-tags">
+        <span class="tag">React</span>
+        <span class="tag">HTML5</span>
+        <span class="tag">CSS3</span>
+        <span class="tag">Tailwind</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🛠️</div>
+      <div class="skill-name">Backend</div>
+      <div class="skill-tags">
+        <span class="tag">Node.js</span>
+        <span class="tag">Express</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">SQL</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🔧</div>
+      <div class="skill-name">Tools & DevOps</div>
+      <div class="skill-tags">
+        <span class="tag">Git</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Linux</span>
+        <span class="tag">VS Code</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section class="section">
+  <div class="section-label">Things I've built</div>
+  <h2>Featured Projects</h2>
+  <div class="projects-grid">
+    <a href="#" class="project-card">
+      <div class="project-num">01 — Project</div>
+      <div class="project-title">Project Name One</div>
+      <div class="project-desc">A brief description of what this project does, the problem it solves, and the impact it had. Replace with your real project.</div>
+      <div class="project-stack">
+        <span class="tag">React</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">MongoDB</span>
+      </div>
+    </a>
+    <a href="#" class="project-card">
+      <div class="project-num">02 — Project</div>
+      <div class="project-title">Project Name Two</div>
+      <div class="project-desc">Another project description here. Mention the tech stack used and what made this project interesting or challenging.</div>
+      <div class="project-stack">
+        <span class="tag">Python</span>
+        <span class="tag">Flask</span>
+        <span class="tag">PostgreSQL</span>
+      </div>
+    </a>
+    <a href="#" class="project-card">
+      <div class="project-num">03 — Project</div>
+      <div class="project-title">Project Name Three</div>
+      <div class="project-desc">Describe the third project here. Add a GitHub link or live demo link to the href above.</div>
+      <div class="project-stack">
+        <span class="tag">Java</span>
+        <span class="tag">Spring Boot</span>
+        <span class="tag">MySQL</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section">
+  <div class="contact-inner">
+    <div class="section-label">Let's connect</div>
+    <h2 style="margin-bottom:0.5rem">Have a project in mind?</h2>
+    <p style="color:var(--muted); max-width:480px;">I'm currently open to freelance work and full-time roles. Drop me an email and I'll get back to you within 24 hours.</p>
+    <a href="mailto:abhijeet@email.com" class="contact-email">abhijeet@email.com</a>
+    <div class="social-links">
+      <a href="https://github.com/" target="_blank" class="social-link">↗ GitHub</a>
+      <a href="https://linkedin.com/" target="_blank" class="social-link">↗ LinkedIn</a>
+      <a href="resume.html" class="social-link">↗ Resume</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2025 Abhijeet Bhosale — built with HTML, CSS &amp; no frameworks
+</footer>
+
+</body>
+</html>
