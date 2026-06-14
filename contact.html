@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Abhijeet Bhosale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #1a1a24;
+      --accent: #ff6b6b;
+      --accent2: #ffd93d;
+      --green: #6bcb77;
+      --blue: #4d96ff;
+      --text: #f0eeff;
+      --muted: #8b87a8;
+      --border: rgba(255,107,107,0.2);
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Space Grotesk', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    /* PAGE */
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 7rem 2rem 5rem;
+    }
+
+    /* HEADER */
+    .page-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--green);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .page-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px; height: 1px;
+      background: var(--green);
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 50%, #4d96ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 3rem;
+      line-height: 1.8;
+    }
+
+    /* FORM CARD */
+    .form-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+    input, textarea {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      resize: none;
+    }
+    input::placeholder, textarea::placeholder {
+      color: var(--muted);
+    }
+    input:focus, textarea:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(255,217,61,0.08);
+    }
+    textarea { min-height: 140px; line-height: 1.6; }
+
+    /* SUBMIT BTN */
+    .submit-btn {
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .submit-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #ff8e53, #ffd93d);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255,107,107,0.35);
+    }
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* SPINNER */
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* SUCCESS / ERROR */
+    .alert {
+      display: none;
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      margin-top: 1.25rem;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .alert-success {
+      background: rgba(107,203,119,0.12);
+      border: 1px solid rgba(107,203,119,0.3);
+      color: var(--green);
+    }
+    .alert-error {
+      background: rgba(255,107,107,0.1);
+      border: 1px solid rgba(255,107,107,0.3);
+      color: var(--accent);
+    }
+
+    /* INFO CARDS */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .info-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .info-card:hover {
+      border-color: var(--accent2);
+      transform: translateY(-2px);
+    }
+    .info-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .info-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+    .info-value { font-size: 0.88rem; color: var(--text); font-weight: 500; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .page { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .form-card { padding: 1.5rem; }
+      .info-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">⚡ Abhijeet Bhosale</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="resume.html">Resume</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+
+  <div class="page-eyebrow">Get in touch</div>
+  <h1>Let's Work Together</h1>
+  <p class="page-sub">
+    Have a project, opportunity, or just want to say hi? Fill out the form below and I'll get back to you within 24 hours. 🚀
+  </p>
+
+  <div class="form-card">
+    <div class="form-group">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" placeholder="e.g. Rahul Sharma" required />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Gmail / Email</label>
+      <input type="email" id="email" placeholder="e.g. rahul@gmail.com" required />
+    </div>
+
+    <div class="form-group">
+      <label for="message">Your Message</label>
+      <textarea id="message" placeholder="Tell me about your project, opportunity, or anything you'd like to discuss..." required></textarea>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+      <span id="btnText">Send Message ✉</span>
+      <div class="spinner" id="spinner"></div>
+    </button>
+
+    <div class="alert alert-success" id="successAlert">
+      ✅ Message sent! I'll get back to you within 24 hours.
+    </div>
+    <div class="alert alert-error" id="errorAlert">
+      ❌ Something went wrong. Please try again or email me directly.
+    </div>
+  </div>
+
+  <!-- QUICK LINKS -->
+  <div class="info-grid">
+    <a href="mailto:abhijeet@email.com" class="info-card">
+      <div class="info-icon">📧</div>
+      <div class="info-label">Email</div>
+      <div class="info-value">abhijeet@email.com</div>
+    </a>
+    <a href="https://linkedin.com/in/yourprofile" target="_blank" class="info-card">
+      <div class="info-icon">💼</div>
+      <div class="info-label">LinkedIn</div>
+      <div class="info-value">linkedin.com/in/yourprofile</div>
+    </a>
+    <a href="https://github.com/abhijeetbhosale777" target="_blank" class="info-card">
+      <div class="info-icon">🐙</div>
+      <div class="info-label">GitHub</div>
+      <div class="info-value">github.com/abhijeetbhosale777</div>
+    </a>
+    <a href="resume.html" class="info-card">
+      <div class="info-icon">📄</div>
+      <div class="info-label">Resume</div>
+      <div class="info-value">View my full resume</div>
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  © 2025 Abhijeet Bhosale — built with HTML, CSS & no frameworks
+</footer>
+
+<script>
+  // ── Supabase Config ──────────────────────────────────────────
+  const SUPABASE_URL = 'https://wpwiuaecgsfxcpslsrew.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_MO1XzWmHwlKpJnwUZd4eDg_xnFkKOPo';
+  const TABLE_NAME   = 'contacts';
+  // ─────────────────────────────────────────────────────────────
+
+  async function submitForm() {
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    // Basic validation
+    if (!name || !email || !message) {
+      showAlert('error', '⚠️ Please fill in all fields.');
+      return;
+    }
+    if (!email.includes('@')) {
+      showAlert('error', '⚠️ Please enter a valid email address.');
+      return;
+    }
+
+    // Show loading
+    setLoading(true);
+    hideAlerts();
+
+    try {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ name, email, message })
+      });
+
+      if (response.ok || response.status === 201) {
+        // Success
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('message').value = '';
+        showAlert('success');
+      } else {
+        const err = await response.json();
+        console.error('Supabase error:', err);
+        showAlert('error');
+      }
+    } catch (err) {
+      console.error('Network error:', err);
+      showAlert('error');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function setLoading(on) {
+    const btn     = document.getElementById('submitBtn');
+    const text    = document.getElementById('btnText');
+    const spinner = document.getElementById('spinner');
+    btn.disabled        = on;
+    text.textContent    = on ? 'Sending...' : 'Send Message ✉';
+    spinner.style.display = on ? 'block' : 'none';
+  }
+
+  function showAlert(type, msg) {
+    hideAlerts();
+    const el = document.getElementById(type === 'success' ? 'successAlert' : 'errorAlert');
+    if (msg) el.textContent = msg;
+    el.style.display = 'flex';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function hideAlerts() {
+    document.getElementById('successAlert').style.display = 'none';
+    document.getElementById('errorAlert').style.display   = 'none';
+  }
+
+  // Allow Enter key to submit from inputs (not textarea)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && !e.shiftKey) {
+      submitForm();
+    }
+  });
+</script>
+
+</body>
+</html>
