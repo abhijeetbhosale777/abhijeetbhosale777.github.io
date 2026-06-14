@@ -335,90 +335,71 @@
 </footer>
 
 <script>
-  // ── Supabase Config ──────────────────────────────────────────
-  const SUPABASE_URL = 'https://wpwiuaecgsfxcpslsrew.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_MO1XzWmHwlKpJnwUZd4eDg_xnFkKOPo';
-  const TABLE_NAME   = 'contacts';
-  // ─────────────────────────────────────────────────────────────
+const BACKEND_URL = 'http://localhost:3000';
 
-  async function submitForm() {
-    const name    = document.getElementById('name').value.trim();
-    const email   = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
+async function submitForm() {
+  const name    = document.getElementById('name').value.trim();
+  const email   = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
 
-    // Basic validation
-    if (!name || !email || !message) {
-      showAlert('error', '⚠️ Please fill in all fields.');
-      return;
-    }
-    if (!email.includes('@')) {
-      showAlert('error', '⚠️ Please enter a valid email address.');
-      return;
-    }
-
-    // Show loading
-    setLoading(true);
-    hideAlerts();
-
-    try {
-      const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify({ name, email, message })
-      });
-
-      if (response.ok || response.status === 201) {
-        // Success
-        document.getElementById('name').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('message').value = '';
-        showAlert('success');
-      } else {
-        const err = await response.json();
-        console.error('Supabase error:', err);
-        showAlert('error');
-      }
-    } catch (err) {
-      console.error('Network error:', err);
-      showAlert('error');
-    } finally {
-      setLoading(false);
-    }
+  if (!name || !email || !message) {
+    showAlert('error', '⚠️ Please fill in all fields.');
+    return;
+  }
+  if (!email.includes('@')) {
+    showAlert('error', '⚠️ Please enter a valid email.');
+    return;
   }
 
-  function setLoading(on) {
-    const btn     = document.getElementById('submitBtn');
-    const text    = document.getElementById('btnText');
-    const spinner = document.getElementById('spinner');
-    btn.disabled        = on;
-    text.textContent    = on ? 'Sending...' : 'Send Message ✉';
-    spinner.style.display = on ? 'block' : 'none';
-  }
+  setLoading(true);
+  hideAlerts();
 
-  function showAlert(type, msg) {
-    hideAlerts();
-    const el = document.getElementById(type === 'success' ? 'successAlert' : 'errorAlert');
-    if (msg) el.textContent = msg;
-    el.style.display = 'flex';
-    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message })
+    });
 
-  function hideAlerts() {
-    document.getElementById('successAlert').style.display = 'none';
-    document.getElementById('errorAlert').style.display   = 'none';
-  }
+    const data = await response.json();
 
-  // Allow Enter key to submit from inputs (not textarea)
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && !e.shiftKey) {
-      submitForm();
+    if (response.ok) {
+      document.getElementById('name').value    = '';
+      document.getElementById('email').value   = '';
+      document.getElementById('message').value = '';
+      showAlert('success');
+    } else {
+      showAlert('error', data.error || 'Something went wrong.');
     }
-  });
+  } catch (err) {
+    showAlert('error', '❌ Cannot reach server. Make sure backend is running.');
+  } finally {
+    setLoading(false);
+  }
+}
+
+function setLoading(on) {
+  const btn     = document.getElementById('submitBtn');
+  const text    = document.getElementById('btnText');
+  const spinner = document.getElementById('spinner');
+  btn.disabled          = on;
+  text.textContent      = on ? 'Sending...' : 'Send Message ✉';
+  spinner.style.display = on ? 'block' : 'none';
+}
+
+function showAlert(type, msg) {
+  hideAlerts();
+  const el = document.getElementById(
+    type === 'success' ? 'successAlert' : 'errorAlert'
+  );
+  if (msg) el.textContent = msg;
+  el.style.display = 'flex';
+}
+
+function hideAlerts() {
+  document.getElementById('successAlert').style.display = 'none';
+  document.getElementById('errorAlert').style.display   = 'none';
+}
 </script>
 
 </body>
